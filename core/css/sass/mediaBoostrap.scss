@@ -1,0 +1,76 @@
+// Import de fonction + variable + mixin pour l'ajout de couleur !!
+@import "bootstrap/_functions.scss";
+@import "bootstrap/_variables.scss";
+@import "bootstrap/_mixins.scss";
+// --------------------------- LES MEDIAS ------------------------------------------------------
+
+
+// ------ MORE THAN ------------ ** Ajouter la règle avant pour qu'elle soit appliquer avant celles des SM pour les XS
+@include media-breakpoint-up(sm) { 
+    
+}
+@include media-breakpoint-up(md) { 
+    
+}
+@include media-breakpoint-up(lg) { 
+    .custom-footer-border-right {
+        border-right: 2px solid #FFFFFF;
+    } 
+}
+@include media-breakpoint-up(xl) { 
+    
+}
+@include media-breakpoint-up(xxl) { 
+    
+}
+
+
+// -------- LESS THAN -----------
+@include media-breakpoint-down(sm) { 
+    
+}
+@include media-breakpoint-down(md) { 
+    
+}
+@include media-breakpoint-down(lg) { 
+    
+}
+@include media-breakpoint-down(xl) { 
+    
+}
+@include media-breakpoint-down(xxl) { 
+
+}
+
+
+// ------ ONLY --------
+@include media-breakpoint-only(xs) { 
+    .logo-footer{
+        max-width:50%;
+    }
+}
+@include media-breakpoint-only(sm) { 
+    .logo-footer{
+        max-width:50%;
+    }   
+}
+@include media-breakpoint-only(md) { 
+    .logo-footer{
+        max-width:50%;
+    }  
+}
+@include media-breakpoint-only(lg) { 
+    .logo-footer{
+        max-width:40%;
+    }  
+}
+@include media-breakpoint-only(xl) { 
+    .logo-footer{
+        max-width:30%;
+    } 
+}
+@include media-breakpoint-only(xxl) { 
+    .logo-footer{
+        max-width:25%;
+    }
+}

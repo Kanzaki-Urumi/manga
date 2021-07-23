@@ -1,0 +1,18 @@
+//Partie des surcharge de bootstrap
+
+// Import de fonction + variable + mixin pour l'ajout de couleur !!
+@import "bootstrap/_functions.scss";
+@import "bootstrap/_variables.scss";
+@import "bootstrap/_mixins.scss";
+
+// Ajout des couleurs
+$custom-colors: (
+    "tvertfonce":  #2B4C44,
+    "tvertdeau": #16958a,
+    "tbleu": #5f9daa,
+    "tvert": #83B955,
+    "tdark": #221f20,
+);
+
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);

@@ -1,0 +1,129 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-06-20 19:01+0200\n"
+"PO-Revision-Date: 2021-06-20 20:16+0200\n"
+"Language: en_GB\n"
+"X-Generator: Poedit 3.0\n"
+"X-Poedit-Basepath: ../../../..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: index.php:38
+msgid "Bienvenue"
+msgstr "Welcome"
+
+#: C:/wamp64/www/TRIMEDS/core/header.php:24
+#: C:/wamp64/www/TRIMEDS/core/footer.php:48
+msgid "Logo TRIMEDS"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/header.php:42
+msgid "Ajouter Un Produit"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/header.php:47
+msgid "Par Catégories"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/header.php:48
+msgid "Par Départements"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/header.php:49
+msgid "Par Laboratoires"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/header.php:50
+msgid "Par Produits"
+msgstr "By ProductsSSaaaaS"
+
+#: C:/wamp64/www/TRIMEDS/core/header.php:19
+msgid "Si vous voulez acheter un produit soumis au respect de la chaîne du froid, merci de ne faire une commande qu’avec des produits de cette catégorie"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/header.php:36
+msgid "Accueil"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/header.php:39
+msgid "Produit Phare"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/header.php:45
+msgid "Recherche"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/header.php:54
+msgid "Actualité"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:12
+msgid "Livraison en moins de 48h*"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:23
+msgid "Paiement sécurisé avec 3D Secure"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:34
+msgid "10€ offerts sur votre première commande avec le code REMISE10<br /><br />(sur un panier total de plus de 199€ HT)"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:39
+msgid "Livraison offerte dès 99€ d’achat*"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:43
+msgid "RESTEZ INFORMÉS ?"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:52
+msgid "Nos partenaires"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:53
+msgid "Comment ça marche ?"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:54
+msgid "FAQ"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:59
+msgid "Mentions Légales"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:60
+msgid "CGV et CGU"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:61
+msgid "Politique de confidentialité"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:66
+msgid "Contactez-nous"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:67
+msgid "Ajouter un produit"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:68
+msgid "Suivi de commande"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:84
+msgid "*chez le même vendeur et hors produits soumis au respect de la chaîne du froid"
+msgstr ""
+
+#: C:/wamp64/www/TRIMEDS/core/footer.php:85
+msgid "2021 © TriMed’s – Tous droits réservés"
+msgstr ""
