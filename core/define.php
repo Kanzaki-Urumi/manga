@@ -1,9 +1,9 @@
 <?php
 
 // Ressources Root
-//define('RACINE_SITE', 'https://trimeds.eu/');
-define('__ROOT__', $_SERVER['DOCUMENT_ROOT'].'/TRIMEDS/'); // Temporaire, avant installation sur le server
-define('RACINE_SITE', 'http://localhost/TRIMEDS/');// Temporaire, le temps du dev local
+//define('RACINE_SITE', 'https://monsite.com/');
+define('__ROOT__', $_SERVER['DOCUMENT_ROOT'].'/_git_manga/'); // Temporaire, avant le server
+define('RACINE_SITE', 'http://localhost/_git_manga/');// Temporaire, le temps du dev local
 define('CDN', 'core/inc_cdn.php');
 define('HEAD', 'core/head.php');
 define('FOOTER', 'core/footer.php');

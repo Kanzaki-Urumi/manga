@@ -1,5 +1,5 @@
 <?php
-class db {
+class Db {
 
     protected $connection;
 	protected $query;
@@ -9,10 +9,6 @@ class db {
 		$this->connection = @new PDO("mysql:dbname=" . $dbname . ";host=" . $dbhost . ";port=". $dbport, $dbuser, $dbpass);
         $this->connection->exec("SET CHARACTER SET utf8mb4");
 		$this->dbname = $dbname;
-        // if ($this->connection->connect_error) {
-		// 	$this->error('Failed to connect to MariaDB - ' . $this->connection->connect_error);
-		// }
-		// $this->connection->set_charset($charset);
 	}
 
     public function query($query) {
