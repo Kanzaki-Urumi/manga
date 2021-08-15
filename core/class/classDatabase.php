@@ -1,5 +1,5 @@
 <?php
-class Db {
+class Database {
 
     protected $connection;
 	protected $query;

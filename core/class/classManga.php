@@ -1,6 +1,5 @@
 <?php
-class manga{
-
+class Manga{
 
     public string $name = '';
     public string $mangaka = '';
@@ -12,6 +11,15 @@ class manga{
      */
     public function __construct(public int $id = 0)
     {
+        
+    }
+
+    /**
+     * get all manga Tome
+     * @param int $id_manga
+     * @return object manga
+     */
+    public function getAllTomes(){
         
     }
 
