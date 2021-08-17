@@ -47,7 +47,10 @@ class Manga{
     public function getAllTomes():Manga|false
     {
         $sql = "SELECT * FROM `manga_tome` WHERE `id_manga` = ".intval($this->idManga)." ";
-        $this->tomes = $this->PDO->query($sql)->fetchArray();
+        $data = $this->PDO->query($sql)->fetchObj();
+        foreach($data as $elem){
+            $this->tomes[$elem->id_tome] = new MangaTome($this->PDO,$elem->id_tome);
+        }
         return $this;
     }
 }
