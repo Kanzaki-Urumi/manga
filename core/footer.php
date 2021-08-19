@@ -1,5 +1,5 @@
                 </main>
-                <footer class="row bg-primary m-0">
+                <footer class="row bg-primary my-0 mt-5">
                     <div class="col text-center">Kanzaki Dev</div>
                 </footer>
             </div>

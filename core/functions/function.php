@@ -1,10 +1,11 @@
 <?php
 /*
 clean_for_bdd();
+getClassStateTome();
 */
 
 
-function clean_for_bdd($string)
+function clean_for_bdd(string|int $string):string|int
 {
     if(ctype_digit($string))
     {
@@ -15,4 +16,15 @@ function clean_for_bdd($string)
         $string = trim($string);       
     }   
     return $string;
+}
+
+function getClassStateTome(int $state):string
+{
+    $result = match($state){
+        0, 2 => 'haventTome', // Mettre bordure jaune pour les "wish" ?
+        1 => '', // border border-success
+        default => 'haventTome',
+    };
+
+    return $result;
 }
