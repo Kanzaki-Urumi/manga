@@ -49,7 +49,7 @@ class Manga{
         $sql = "SELECT * FROM `manga_tome` WHERE `id_manga` = ".intval($this->idManga)." ";
         $data = $this->PDO->query($sql)->fetchObj();
         foreach($data as $elem){
-            $this->tomes[$elem->id_tome] = new MangaTome($this->PDO,$elem->id_tome);
+            $this->tomes[(int) $elem->id_tome] = new MangaTome($this->PDO,$elem->id_tome);
         }
         return $this;
     }

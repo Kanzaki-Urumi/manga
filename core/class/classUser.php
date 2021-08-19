@@ -35,18 +35,9 @@ class User{
         ORDER BY `m`.`name` ASC, `mt`.`number` ASC";
 
         foreach($this->PDO->query($sql)->fetchObj() as $elem){
-            $this->manga[$elem->id_manga][$elem->id_tome] = $elem->id_tome_status;
+            $this->manga[(int) $elem->id_manga][(int) $elem->id_tome] = (int) $elem->id_tome_status;
         }
 
         return $this;
     }
-
-
-
-
-
-
-
-
-
 }

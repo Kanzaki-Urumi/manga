@@ -1,9 +1,9 @@
 <?php
 class MangaTome{
 
-    public string $number = '';
+    public int|null $number = null;
     public string $image = '';
-    public string $idManga = '';
+    public int|null $idManga = null;
 
     /**
      * construct
