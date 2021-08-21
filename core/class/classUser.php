@@ -4,14 +4,16 @@ class User{
     public string $pseudo = '';
     public int|null $idType = null;
     public array $manga = [];
+    protected Database $PDO;
 
     /**
      * construct
-     * @param Database $PDO 
      * @param int $idMembre 
      */
-    public function __construct(public Database $PDO, public int|null $idMembre = null)
+    public function __construct(public int|null $idMembre = null)
     {
+        $this->PDO = new Database();
+
         if($idMembre > 0)
             return $this->readLibrary();
 

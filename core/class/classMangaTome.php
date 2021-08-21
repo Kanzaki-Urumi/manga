@@ -4,13 +4,16 @@ class MangaTome{
     public int|null $number = null;
     public string $image = '';
     public int|null $idManga = null;
+    protected Database $PDO;
 
     /**
      * construct
      * @param int $id 
      */
-    public function __construct(public Database $PDO, public int $idTome = 0)
+    public function __construct(public int $idTome = 0)
     {
+        $this->PDO = new Database();
+
         if($idTome > 0)
             return $this->readIdTome();
 
@@ -29,10 +32,10 @@ class MangaTome{
         if($data->affectedRows() != 1)
             return false;
     
-        $data = $data->fetchObj();
-        $this->number = $data[0]->number;
-        $this->image = $data[0]->image;
-        $this->idManga = $data[0]->id_manga;
+        $data = $data->firstRow();
+        $this->number = $data->number;
+        $this->image = $data->image;
+        $this->idManga = $data->id_manga;
         return $this;
     }
 
@@ -52,10 +55,10 @@ class MangaTome{
             return false;
 
         $sql = "SELECT * FROM `manga_tome` WHERE id_manga = ".intval($this->idManga)." AND number = ".intval($this->number)." ";
-        $data = $this->PDO->query($sql)->fetchObj();
-        $this->number = $data[0]->number;
-        $this->image = $data[0]->image;
-        $this->idManga = $data[0]->id_manga;
+        $data = $this->PDO->query($sql)->firstRow();
+        $this->number = $data->number;
+        $this->image = $data->image;
+        $this->idManga = $data->id_manga;
         return $this;
     }
 }

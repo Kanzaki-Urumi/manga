@@ -3,42 +3,88 @@ class Database {
 
     protected $connection;
 	protected $query;
-    protected $dbname;
+	public $data;
 
-	public function __construct($dbhost, $dbuser, $dbpass, $dbname, $dbport = 3307) {
-		$this->connection = @new PDO("mysql:dbname=" . $dbname . ";host=" . $dbhost . ";port=". $dbport, $dbuser, $dbpass);
+	public function __construct(
+		protected string $dbhost = "localhost",
+		protected string $dbuser = "root",
+		protected string $dbpass = "",
+		protected string $dbname = "manga",
+		protected int $dbport = 3307) {
+		$this->connection = @new PDO("mysql:dbname=" . $this->dbname . ";host=" . $this->dbhost . ";port=". $this->dbport, $this->dbuser, $this->dbpass);
         $this->connection->exec("SET CHARACTER SET utf8mb4");
 		$this->dbname = $dbname;
 	}
 
-    public function query($query) {
+	/**
+	 * query
+	 *
+	 * @param string $query 
+	 * @return Database
+	 */
+    public function query(string $query):Database
+	{
 		$this->query = $this->connection->query($query);
 		return $this;
     }
 
-    public function fetchObj(){
-        return $this->query->fetchAll(PDO::FETCH_OBJ);
+	/**
+	 * fetchObj
+	 * @return array
+	 */
+    public function fetchObj():array
+	{
+		return $this->query->fetchAll(PDO::FETCH_OBJ);
     }
 
-	public function fetchArray() {
-	    return $this->query->fetchAll(PDO::FETCH_ASSOC);
+	/**
+	 * firstRow
+	 * @return object
+	 */
+	public function firstRow():object
+	{
+		return ($this->fetchObj())[0];
 	}
 
-	public function close() {
-		return $this->connection->close();
+	/**
+	 * close
+	 * @return void
+	 */
+	public function close():void
+	{
+		$this->connection->close();
 	}
 
-	public function affectedRows() {
-		return $this->query->rowCount();
+	/**
+	 * affectedRows
+	 *
+	 * @return int
+	 */
+	public function affectedRows():int
+	{
+		return (int) $this->query->rowCount();
 	}
 
-    public function lastInsertID() {
-    	return $this->connection->lastInsertId();
+	/**
+	 * lastInsertID
+	 *
+	 * @return int
+	 */
+    public function lastInsertID():int
+	{
+    	return (int) $this->connection->lastInsertId();
     }
 
-    public function getAutoIncrement($table){
-        $data = $this->query("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = '".$this->dbname."' AND TABLE_NAME = '".$table."'")->fetchObj();
-        return $data[0]->AUTO_INCREMENT;
+	/**
+	 * getAutoIncrement
+	 *
+	 * @param string $table 
+	 * @return int
+	 */
+    public function getAutoIncrement(string $table)
+	{
+        $data = $this->query("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = '".$this->dbname."' AND TABLE_NAME = '".$table."'")->firstRow()->AUTO_INCREMENT;
+        return (int) $data;
     } 
 }
 ?>

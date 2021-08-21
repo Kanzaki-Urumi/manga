@@ -5,14 +5,16 @@ class Manga{
     public string $mangaka = '';
     public int|null $idType = null;
     public array $tomes = [];
+    protected Database $PDO;
 
     /**
      * construct
-     * @param Database $PDO 
      * @param int $id 
      */
-    public function __construct(public Database $PDO, public int $idManga = 0)
+    public function __construct(public int $idManga = 0)
     {
+        $this->PDO = new Database();
+
         if($idManga > 0)
             return $this->readIdManga();
 
@@ -32,11 +34,11 @@ class Manga{
         if($data->affectedRows() != 1)
             return false;
     
-        $data = $data->fetchObj();
-        $this->name = $data[0]->name;
-        $this->mangaka = $data[0]->mangaka;
-        $this->idType = $data[0]->id_type;
-        $this->idManga = $data[0]->id_manga; // Case where we pass with $id
+        $data = $data->firstRow();
+        $this->name = $data->name;
+        $this->mangaka = $data->mangaka;
+        $this->idType = $data->id_type;
+        $this->idManga = $data->id_manga; // Case where we pass with $id
         return $this->getAllTomes();
     }
 
@@ -49,7 +51,7 @@ class Manga{
         $sql = "SELECT * FROM `manga_tome` WHERE `id_manga` = ".intval($this->idManga)." ";
         $data = $this->PDO->query($sql)->fetchObj();
         foreach($data as $elem){
-            $this->tomes[(int) $elem->id_tome] = new MangaTome($this->PDO,$elem->id_tome);
+            $this->tomes[(int) $elem->id_tome] = new MangaTome($elem->id_tome);
         }
         return $this;
     }
