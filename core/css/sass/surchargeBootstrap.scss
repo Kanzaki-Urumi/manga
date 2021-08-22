@@ -1,14 +1,31 @@
 //Partie des surcharge de bootstrap
 
 // Import de fonction + variable + mixin pour l'ajout de couleur !!
-@import "bootstrap/_functions.scss";
-@import "bootstrap/_variables.scss";
-@import "bootstrap/_mixins.scss";
+// @import "bootstrap/_functions.scss";
+// @import "bootstrap/_variables.scss";
+// @import "bootstrap/_mixins.scss";
+@import "bootstrap/bootstrap-utilities.scss";
 
-// Ajout des couleurs
+
+// Colors List
 $custom-colors: (
     "roseh":  #f73bb8,
+    "pourpre": #7000bb
+);
+// Add Colors Var
+$theme-colors: map-merge(
+    $theme-colors,
+    $custom-colors
 );
 
-// Merge the maps
-$theme-colors: map-merge($theme-colors, $custom-colors);
+
+// Add Class for Cursor
+$utilities: map-merge(
+  $utilities,
+  (
+    "cursor": (
+      property: cursor,
+      values: auto default pointer wait text move help not-allowed
+    ),
+  )
+);

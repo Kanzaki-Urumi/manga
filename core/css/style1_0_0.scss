@@ -19,7 +19,10 @@ footer {
 }
 
 .collection-gallery div > img{
-	max-width:120px; 
+	max-width:120px;
+	&.haventTome{
+		filter:grayscale(1);
+	}
 }
 
 // Icon social Network footer
