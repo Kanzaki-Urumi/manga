@@ -1,3 +1,9 @@
+<?php
+
+$userObj = new User(6);
+
+?>
+
 <!DOCTYPE html>
 </html>
 <head>
@@ -44,27 +50,15 @@
                         </div>
                         <div class="col-12 mt-5 d-none d-sm-inline">
                             <h5>Genre</h5>
-                            <a href="#" class=""><span class="badge bg-success">New</span></a>
-                            <a href="#" class=""><span class="badge bg-success">New</span></a>
-                            <a href="#" class=""><span class="badge bg-success">New</span></a>
+                            <?php foreach((new Reference('genre'))->getTableList() as $elem): ?>
+                                <span class="badge bg-success cursor-pointer user-select-none"><?= $elem->label ?></span>
+                            <?php endforeach; ?>
                         </div>
                         <div class="col-12 mt-5 d-none d-sm-inline">
                             <h5>Catégorie</h5>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
-                            <a href="#" class=""><span class="badge bg-info">New</span></a>
+                            <?php foreach((new Reference('categorie'))->getTableList() as $elem): ?>
+                                <span class="badge bg-info cursor-pointer user-select-none"><?= $elem->label ?></span>
+                            <?php endforeach; ?>
                         </div>
                     </nav>
                     <div class="dropdown py-sm-4 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">

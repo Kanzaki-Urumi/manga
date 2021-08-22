@@ -18,10 +18,10 @@ CREATE TABLE `manga`  (
 
 DROP TABLE IF EXISTS `manga_categorie`;
 CREATE TABLE `manga_categorie`  (
-  `id_manga_genre` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_manga_categorie` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_manga` smallint(5) UNSIGNED NOT NULL,
   `id_categorie` smallint(3) UNSIGNED NOT NULL,
-  PRIMARY KEY (`id_manga_genre`) USING BTREE,
+  PRIMARY KEY (`id_manga_categorie`) USING BTREE,
   UNIQUE INDEX `unique_genre_manga`(`id_manga`, `id_categorie`) USING BTREE COMMENT 'Unique genre apply for each manga (but more than 1 genre can be add for same)',
   INDEX `fk_refgenre_delete_categorie`(`id_categorie`) USING BTREE,
   CONSTRAINT `fk_refgenre_delete_categorie` FOREIGN KEY (`id_categorie`) REFERENCES `ref_categorie` (`id_categorie`) ON DELETE CASCADE ON UPDATE RESTRICT
