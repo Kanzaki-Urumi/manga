@@ -4,6 +4,9 @@ class User{
     public string $pseudo = '';
     public int|null $idType = null;
     public array $manga = [];
+    public int $nbHave = 0;
+    public int $nbWish = 0;
+    public int $nbHavent = 0;
     protected Database $PDO;
 
     /**
@@ -14,15 +17,18 @@ class User{
     {
         $this->PDO = new Database();
 
-        if($idMembre > 0)
-            return $this->readLibrary();
-
+        if($idMembre > 0){
+            return $this
+                ->readLibrary()
+                ->getMangaHave()
+                ->getMangaWish()
+                ->getMangaHavent();
+        }
         return $this;        
     }
 
     /**
      * readLibrary
-     *
      * @return User|false
      */
     public function readLibrary():User|false
@@ -39,7 +45,77 @@ class User{
         foreach($this->PDO->query($sql)->fetchObj() as $elem){
             $this->manga[(int) $elem->id_manga][(int) $elem->id_tome] = (int) $elem->id_tome_status;
         }
+        return $this;
+    }
+
+    /**
+     * getListGenre
+     * @return array
+     */
+    public function getListGenre():array
+    {
+        $sql = "SELECT `rg`.`id_genre`, `rg`.`label` 
+        FROM `user_manga` AS `um` 
+        INNER JOIN `manga` AS `m` ON `m`.`id_manga` = `um`.`id_manga` 
+        INNER JOIN `ref_genre` AS `rg` ON `m`.`id_genre` = `rg`.`id_genre` ";
+        return $this->PDO->query($sql)->fetchObj();
+    }
+
+    /**
+     * getListCat
+     * @return array
+     */
+    public function getListCat():array
+    {
+        $sql = "SELECT `rc`.`id_categorie`, `rc`.`label` 
+        FROM `user_manga` AS `um` 
+        INNER JOIN `manga_categorie` AS `mc` ON `mc`.`id_manga` = `um`.`id_manga` 
+        INNER JOIN `ref_categorie` AS `rc` ON `mc`.`id_categorie` = `rc`.`id_categorie` ";
+        return $this->PDO->query($sql)->fetchObj();
+    }
+
+    /**
+     * getMangaHave
+     * @return User
+     */
+    public function getMangaHave():User
+    {
+        $sql = "SELECT * FROM `user_tome` AS `ut` 
+        INNER JOIN `user_manga` AS `um` ON `um`.`id_user_manga` = `ut`.`id_user_manga` 
+        WHERE `id_tome_status` = 1 AND `um`.`id_user` = ".$this->idMembre." ";
+        $this->nbHave = $this->PDO->query($sql)->affectedRows();
 
         return $this;
     }
+
+    /**
+     * getMangaWish
+     * @return User
+     */
+    public function getMangaWish():User
+    {
+        $sql = "SELECT * FROM `user_tome` AS `ut` 
+        INNER JOIN `user_manga` AS `um` ON `um`.`id_user_manga` = `ut`.`id_user_manga` 
+        WHERE `id_tome_status` = 2 AND `um`.`id_user` = ".$this->idMembre." ";
+        $this->nbWish = $this->PDO->query($sql)->affectedRows();
+
+        return $this;
+    }
+
+    /**
+     * getMangaHavent : (Total possible tome) - (Have + Wish)
+     * @return User
+     */
+    public function getMangaHavent():User
+    {
+        $sql = "SELECT * FROM `user_manga` AS `um` 
+        INNER JOIN `manga_tome` AS `mt` ON `mt`.`id_manga` = `um`.`id_manga` 
+        LEFT JOIN `user_tome` AS `ut` ON `ut`.`id_tome` = `mt`.`id_tome`
+        WHERE `um`.`id_user` = ".$this->idMembre." AND `ut`.`id_user_tome` IS NULL";
+        $this->nbHavent = $this->PDO->query($sql)->affectedRows();
+
+        return $this; 
+    }
+
+
 }

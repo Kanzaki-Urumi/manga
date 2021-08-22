@@ -20,7 +20,7 @@ class Reference{
      */
     public function readRef(int $idRef):string
     {
-        $sql= "SELECT `label` FROM `ref_".$this->table."` WHERE `id_".$this->table."` = ".intval($id)." ";
+        $sql= "SELECT `label` FROM `ref_".$this->table."` WHERE `id_".$this->table."` = ".intval($idRef)." ";
         return $this->PDO->query($sql)->firstRow()->label;
     }
 

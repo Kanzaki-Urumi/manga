@@ -3,8 +3,9 @@ class Manga{
 
     public string $name = '';
     public string $mangaka = '';
-    public int|null $idType = null;
+    public int|null $idGenre = null;
     public array $tomes = [];
+    public array $categories = [];
     protected Database $PDO;
 
     /**
@@ -37,9 +38,9 @@ class Manga{
         $data = $data->firstRow();
         $this->name = $data->name;
         $this->mangaka = $data->mangaka;
-        $this->idType = $data->id_type;
+        $this->idGenre = $data->id_genre;
         $this->idManga = $data->id_manga; // Case where we pass with $id
-        return $this->getAllTomes();
+        return $this->getAllTomes()->getAllCategories();
     }
 
     /**
@@ -48,10 +49,33 @@ class Manga{
      */
     public function getAllTomes():Manga|false
     {
+        if($this->idManga < 1)
+            return false;
+
         $sql = "SELECT * FROM `manga_tome` WHERE `id_manga` = ".intval($this->idManga)." ";
         $data = $this->PDO->query($sql)->fetchObj();
         foreach($data as $elem){
             $this->tomes[(int) $elem->id_tome] = new MangaTome($elem->id_tome);
+        }
+        return $this;
+    }
+
+    /**
+     * getAllCategories
+     * @return Manga|false
+     */
+    public function getAllCategories():Manga|false
+    {
+        if($this->idManga < 1)
+            return false;
+            
+        $sql = "SELECT `rc`.* 
+        FROM `manga_categorie` AS `mc` 
+        INNER JOIN `ref_categorie` AS `rc` ON `rc`.`id_categorie` = `mc`.`id_categorie` 
+        WHERE `mc`.`id_manga` = ".$this->idManga." ";
+        $data = $this->PDO->query($sql)->fetchObj();
+        foreach($data as $elem){
+            $this->categories[(int) $elem->id_categorie] = $elem->label;
         }
         return $this;
     }
