@@ -1,6 +1,8 @@
 <?php
 
+// PREVOIR CAS OU IL N'Y A PAS DE USER ?? FAIRE QUE NOM URL EST UN USER ET TESTER SI EXISTE :)
 $userObj = new User(6);
+$userPercentCollection = 85/($userObj->nbHave + $userObj->nbHavent + $userObj->nbWish);
 
 ?>
 
@@ -23,29 +25,29 @@ $userObj = new User(6);
                     <nav class="nav nav-pills row mb-sm-auto mb-0">
                         <div class="col-10 col-md-12 d-none d-sm-inline">
                             <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 67%" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100">XX</div>
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 17%" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100">YY</div>
-                                <div class="progress-bar bg-secondary" role="progressbar" style="width: 16%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">ZZ</div>
+                                <div class="progress-bar bg-success text-pourpre" role="progressbar" style="width: <?= floor($userPercentCollection*$userObj->nbHave) + 5; ?>%" aria-valuenow="<?= floor($userPercentCollection*$userObj->nbHave) + 5; ?>" aria-valuemin="0" aria-valuemax="100"><?= $userObj->nbHave ?></div>
+                                <div class="progress-bar bg-warning text-pourpre" role="progressbar" style="width: <?= floor($userPercentCollection*$userObj->nbWish) + 5; ?>%" aria-valuenow="<?= floor($userPercentCollection*$userObj->nbWish) + 5; ?>" aria-valuemin="0" aria-valuemax="100"><?= $userObj->nbWish ?></div>
+                                <div class="progress-bar bg-secondary text-pourpre" role="progressbar" style="width: <?= floor($userPercentCollection*$userObj->nbHavent) + 5; ?>%" aria-valuenow="<?= floor($userPercentCollection*$userObj->nbHavent) + 5; ?>" aria-valuemin="0" aria-valuemax="100"><?= $userObj->nbHavent ?></div>
                             </div>
                         </div>
                         <div class="col-sm-12 col-3">
                             <a href="#" class="nav-link px-sm-0 px-2 text-white">
-                                <i class="fs-5 bi-house">(EEE)</i><span class="ms-1 d-none d-sm-inline text-decoration-underline">Total</span>
+                                <i class="fs-5 bi-house">(<?= $userObj->nbHave + $userObj->nbHavent + $userObj->nbWish ?>)</i><span class="ms-1 d-none d-sm-inline text-decoration-underline">Total</span>
                             </a>
                         </div>
                         <div class="col-sm-12 col-3">
                             <a href="#" class="nav-link px-sm-0 px-2 text-success">
-                                <i class="fs-5 bi-house">(XX)</i><span class="ms-1 d-none d-sm-inline text-decoration-underline">Possédés</span>
+                                <i class="fs-5 bi-house">(<?= $userObj->nbHave ?>)</i><span class="ms-1 d-none d-sm-inline text-decoration-underline">Possédés</span>
                             </a>
                         </div>
                         <div class="col-sm-12 col-3">
                             <a href="#" class="nav-link px-sm-0 px-2 text-warning">
-                                <i class="fs-5 bi-house">(YY)</i><span class="ms-1 d-none d-sm-inline text-decoration-underline">Souhaités</span>
+                                <i class="fs-5 bi-house">(<?= $userObj->nbWish ?>)</i><span class="ms-1 d-none d-sm-inline text-decoration-underline">Souhaités</span>
                             </a>
                         </div>
                         <div class="col-sm-12 col-3">
                             <a href="#" class="nav-link px-sm-0 px-2 text-secondary">
-                                <i class="fs-5 bi-house">(ZZ)</i><span class="ms-1 d-none d-sm-inline text-decoration-underline">Manquants</span>
+                                <i class="fs-5 bi-house">(<?= $userObj->nbHavent ?>)</i><span class="ms-1 d-none d-sm-inline text-decoration-underline">Manquants</span>
                             </a>
                         </div>
                         <div class="col-12 mt-5 d-none d-sm-inline">
