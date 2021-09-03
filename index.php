@@ -2,7 +2,11 @@
 require_once('core/define.php');
 
 include_once('core/header.php');
+
+// var_dump($userObj->manga);
+// echo($userObj->test);
 ?>
+
 
 <div class="col-12 collection-gallery mx-auto">
     <div class="row pb-3">
@@ -24,8 +28,10 @@ include_once('core/header.php');
             </div>
             <div class="col-12 pt-2 collapse tomeCollapse" id="collapseTome<?= $id ?>">
                 <?php foreach($MangaInfo->tomes as $value): ?>
-                    <div class="me-1 mb-2 d-inline-block border-3 border border-<?= getClassBorderColorStateTome($elem[$value->idTome]??0) ?>">
-                        <img class="<?= getClassStateTome($elem[$value->idTome]??0) ?>" src="files/img/tinycover/<?= $value->image ?>" alt="<?= $MangaInfo->name.' Tome '.$value->number ?>"/>
+                    <div class="position-relative me-1 mb-2 d-inline-block border-3 border border-<?= getClassBorderColorStateTome($elem[$value->idTome]??0) ?>">
+                        <div class="iconMangaTop"><i class="fa-2x fas fa-check-circle text-success"></i></div>
+                        <div class="iconMangaBottom"><i class="fa-2x fas fa-minus-circle text-danger"></i></div>
+                        <img class="<?= getClassStateTome($elem[$value->idTome]??0) ?>" data-src="files/img/minicover/<?= $value->image ?>" src="" alt="<?= $MangaInfo->name.' Tome '.$value->number ?>"/>
                     </div>
                 <?php endforeach; ?>        
             </div>
@@ -55,12 +61,16 @@ include_once('core/header.php');
         if(buttonChevron.classList.contains('fa-chevron-right') || state == 'show'){
             buttonChevron.classList.remove('fa-chevron-right');
             buttonChevron.classList.add('fa-chevron-down');
+            let listingImageDataSrc = [].slice.call(document.querySelectorAll('#collapseTome' + id + ' img'));
+            listingImageDataSrc.map(function (imageData) {
+                imageData.src = imageData.dataset.src;
+            });
         }else if(!buttonChevron.classList.contains('fa-chevron-right') || state == 'hide'){
             buttonChevron.classList.remove('fa-chevron-down');
             buttonChevron.classList.add('fa-chevron-right');
         }
     }
-
+    
     // Show or Hide collapse element
     function collapseElement(elementCollapsible, varToggle=true){
         let elementToCollapse = new bootstrap.Collapse(elementCollapsible,{toggle:varToggle});
@@ -95,6 +105,18 @@ include_once('core/header.php');
             buttonCollapseState(element.dataset.id, 'show');
         });
     });
+
+    async function myAJAX(url) {
+        let res = await fetch(url)
+        let text = await res.text()
+        return text
+    }
+
+    var test = 'delete';
+    myAJAX('inc/updateTomeState.php?a='+test).then(result => {
+        console.log(result)
+    });
+
 </script>
 
 

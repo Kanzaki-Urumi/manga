@@ -20,7 +20,7 @@ class User{
 
         if($idMembre > 0){
             return $this
-                ->getLibraryByState(1,[1],null)
+                ->getLibraryByState()
                 ->getMangaHave()
                 ->getMangaWish()
                 ->getMangaHavent();
@@ -49,52 +49,37 @@ class User{
         return $this;
     }
 
-    public function getLibraryByState(null|array $idGenre = null, null|array $idCategorie = null, null|int $idTomeState = null):User|false
+    public function getLibraryByState(array $idGenre = [], array $idCategorie = [], null|int $idTomeState = null):User|false
     {
-        $sql = "SELECT `um`.`id_manga`, `ut`.`id_tome`, `ut`.`id_tome_status` 
-        FROM `user_manga` AS `um` ";
 
-        if($idTomeState > 0){
-           $sql .= "INNER JOIN `user_tome` AS `ut` ON `um`.`id_user_manga` = `ut`.`id_user_manga` AND  `ut`.`id_tome_status` = ".$idTomeState." ";
-        }else{
-            $sql .= "LEFT JOIN `user_tome` AS `ut` ON `um`.`id_user_manga` = `ut`.`id_user_manga` ";
-        }
+        $sql = "SELECT * FROM `user_manga` AS `um` 
+        INNER JOIN `manga` AS `m` ON `m`.`id_manga` = `um`.`id_manga` ";
 
-        $sql .= "INNER JOIN `manga` AS `m` ON `m`.`id_manga` = `um`.`id_manga` ";
-        if($idGenre != null){
-            $sql .= "AND `m`.`id_genre` IN(".implode(',',$idGenre).") ";
-        }
+        if(count($idGenre) > 0)
+            $sql .= "AND `m`.`id_genre` IN(".implode(',',array_map('intval',$idGenre)).") ";
 
-        if($idCategorie != null){
-            $sql .= "LEFT JOIN `manga_categorie` AS `mc` ON `mc`.`id_manga` = `m`.`id_manga` AND `mc`.`id_categorie` IN(".implode(',',$idCategorie).") ";
-        }
+        $sql .= "INNER JOIN `manga_tome` AS `mt` ON `mt`.`id_manga` = `m`.`id_manga` 
+        LEFT JOIN `user_tome` AS `ut` ON `mt`.`id_tome` = `ut`.`id_tome` 
+        INNER JOIN `manga_categorie` AS `mc` ON `mc`.`id_manga` = `m`.`id_manga` ";
 
-        
-        $sql .= "INNER JOIN `manga_tome` AS `mt` ON `mt`.`id_tome` = `ut`.`id_tome`
-        WHERE `um`.`id_user` = ".intval($this->idMembre)." 
-        ORDER BY `m`.`name` ASC, `mt`.`number` ASC";
+        if(count($idCategorie) > 0)
+            $sql .= "AND `mc`.`id_categorie` IN(".implode(',',array_map('intval',$idCategorie)).") ";
+
+        $sql .= "WHERE `um`.`id_user` = ".intval($this->idMembre)." ";
+
+        if($idTomeState > 0)
+            $sql .= "AND `ut`.`id_tome_status` = ".intval($idTomeState)." ";
+
+        if($idTomeState === 0)
+            $sql .= "AND `ut`.`id_tome_status` IS NULL ";
+
+        $sql .= "GROUP BY `mt`.`id_tome` 
+        ORDER BY `m`.`name` ASC, `mt`.`number` ASC ;";
 
         foreach($this->PDO->query($sql)->fetchObj() as $elem){
             $this->manga[(int) $elem->id_manga][(int) $elem->id_tome] = (int) $elem->id_tome_status;
         }
         $this->test = $sql;
-        return $this;
-    }
-
-    public function getLibraryFiltered(int|false $idGenre = false, int|false $idCategorie = false, int|false $idPossession = false)
-    {
-        // Left join, case where user havent any tome for Manga name
-        $sql = "SELECT `um`.`id_manga`, `ut`.`id_tome`, `ut`.`id_tome_status` 
-        FROM `user_manga` AS `um` 
-        LEFT JOIN `user_tome` AS `ut` ON `um`.`id_user_manga` = `ut`.`id_user_manga` 
-        INNER JOIN `manga` AS `m` ON `m`.`id_manga` = `um`.`id_manga` 
-        INNER JOIN `manga_tome` AS `mt` ON `mt`.`id_tome` = `ut`.`id_tome`
-        WHERE `um`.`id_user` = ".intval($this->idMembre)." AND `m`.`id_genre` = ".$id." 
-        ORDER BY `m`.`name` ASC, `mt`.`number` ASC";
-
-        foreach($this->PDO->query($sql)->fetchObj() as $elem){
-            $this->manga[(int) $elem->id_manga][(int) $elem->id_tome] = (int) $elem->id_tome_status;
-        }
         return $this;
     }
 

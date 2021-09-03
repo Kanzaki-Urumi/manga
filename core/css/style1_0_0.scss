@@ -19,9 +19,31 @@ footer {
 }
 
 .collection-gallery div > img{
-	max-width:120px;
+	width:100px;
 	&.haventTome{
 		filter:grayscale(1);
+	}
+}
+
+
+
+.iconMangaTop{
+	position: absolute;
+	top: 20%;
+	right: 36%;
+	opacity: 0.33;
+	&:hover{
+		opacity: 1;
+	}
+}
+
+.iconMangaBottom{
+	position: absolute;
+	top: 60%;
+	right: 36%;
+	opacity: 0.33;
+	&:hover{
+		opacity: 1;
 	}
 }
 
