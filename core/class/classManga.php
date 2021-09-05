@@ -40,7 +40,8 @@ class Manga{
         $this->mangaka = $data->mangaka;
         $this->idGenre = $data->id_genre;
         $this->idManga = $data->id_manga; // Case where we pass with $id
-        return $this->getAllTomes()->getAllCategories();
+        // return $this->getAllTomes()->getAllCategories(); // Remove getAllTomes for better load
+        return $this->getAllCategories();
     }
 
     /**
@@ -68,7 +69,7 @@ class Manga{
     {
         if($this->idManga < 1)
             return false;
-            
+
         $sql = "SELECT `rc`.* 
         FROM `manga_categorie` AS `mc` 
         INNER JOIN `ref_categorie` AS `rc` ON `rc`.`id_categorie` = `mc`.`id_categorie` 

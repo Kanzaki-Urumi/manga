@@ -1,7 +1,6 @@
 <?php
 class User{
 
-    public string $test = '';
     public string $pseudo = '';
     public int|null $idType = null;
     public array $manga = [];
@@ -79,7 +78,6 @@ class User{
         foreach($this->PDO->query($sql)->fetchObj() as $elem){
             $this->manga[(int) $elem->id_manga][(int) $elem->id_tome] = (int) $elem->id_tome_status;
         }
-        $this->test = $sql;
         return $this;
     }
 
@@ -153,5 +151,40 @@ class User{
         return $this; 
     }
 
+    /**
+     * changeStateTome
+     * @param int $idTome Id tome must be edit/delete/add
+     * @param string $state State : add/wish/delete
+     */
+    public function changeStateTome(int $idTome, string $state)
+    {
+        $sql = "SELECT * FROM `manga_tome` AS `mt` 
+                INNER JOIN `user_manga` AS `um` ON `um`.`id_manga` = `mt`.`id_manga` 
+                WHERE `mt`.`id_tome` = ".intval($idTome)." AND `um`.`id_user` = ".intval($this->idMembre)." ";
+        $nbFound = $this->PDO->query($sql)->affectedRows();
+
+        if($nbFound != 1)
+            return $nbFound;
+
+        switch($state):
+            case 'delete': 
+                $sql = "DELETE `ut`.* FROM `user_tome` AS `ut` 
+                        INNER JOIN `user_manga` AS `um` ON `um`.`id_user_manga` = `ut`.`id_user_manga` 
+                        WHERE `ut`.`id_tome` = ".intval($idTome)." AND `um`.`id_user` = ".intval($this->idMembre)." ";
+                break;
+            case 'wish':
+            case 'add':
+                $idStatutTome = ($state == 'wish')? 2 : 1;
+                $sql = "INSERT INTO `user_tome` (id_user_manga, id_tome, id_tome_status) 
+                        SELECT `um`.`id_user_manga`, ".intval($idTome).", ".intval($idStatutTome)." 
+                        FROM `manga_tome` AS `mt` 
+                        INNER JOIN `user_manga` AS `um` ON `um`.`id_manga` = `mt`.`id_manga` 
+                        WHERE `um`.`id_user` = ".intval($this->idMembre)." AND `mt`.`id_tome` = ".intval($idTome)." 
+                        ON DUPLICATE KEY UPDATE `id_tome_status` = ".intval($idStatutTome)." ";
+                break;
+            default: exit;
+        endswitch;
+        $this->PDO->query($sql);
+    }
 
 }
