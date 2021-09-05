@@ -20,7 +20,7 @@ function getClassStateTome(int $state):string
 {
     $result = match($state){
         0, 2 => 'haventTome',
-        1 => '', // border border-success
+        1 => 'haveTome',
         default => 'haventTome',
     };
 
