@@ -34,10 +34,10 @@ include_once('core/header.php');
     <?php endforeach; ?>
 </div>
 <template id="tomeListTemplate">
-    <div class="position-relative me-1 mb-2 d-inline-block border-3 border">
+    <div class="position-relative me-1 mb-2 d-inline-block border-5 border">
         <div class="iconMangaTop cursor-pointer"></div>
         <div class="iconMangaBottom cursor-pointer"></div>
-        <img class="" src="" alt="METTRE ALT"/>
+        <img alt="METTRE ALT"/>
     </div>
 </template>
 
@@ -62,30 +62,50 @@ include_once('core/header.php');
     }
 
     // Create Button Edit State Tome
-    function newButtonStateFontawesome(state, id){
-        let newElementFontawesome = document.createElement("i");
-        newElementFontawesome.classList.add('fa-2x', 'fas', 'bg-dark', 'rounded-circle');
-        switch (state) {
+    function newButtonStateFontawesome(topElement, bottomElement, state, id){
+        topElement.innerHTML = '';
+        bottomElement.innerHTML = '';
+        let newTopFontawesome = document.createElement("i");
+        let newBottomFontawesome = document.createElement("i");
+        let nextTopState, nextBottomState;
+        newTopFontawesome.classList.add('fa-2x', 'fas', 'bg-dark', 'rounded-circle');
+        newBottomFontawesome.classList.add('fa-2x', 'fas', 'bg-dark', 'rounded-circle');
+        switch (state) { // le current defini le top et le bot alors !
             case 'add':
-                newElementFontawesome.classList.add('fa-check-circle', 'text-success');
+                newTopFontawesome.classList.add('fa-question-circle', 'text-warning');
+                newBottomFontawesome.classList.add('fa-minus-circle', 'text-danger');
+                nextTopState = 'wish';
+                nextBottomState = 'delete';
                 break;
             case 'wish':
-                newElementFontawesome.classList.add('fa-question-circle', 'text-warning');
+                newTopFontawesome.classList.add('fa-check-circle', 'text-success');
+                newBottomFontawesome.classList.add('fa-minus-circle', 'text-danger');
+                nextTopState = 'add';
+                nextBottomState = 'delete';
                 break;
             case 'delete':
-                newElementFontawesome.classList.add('fa-minus-circle', 'text-danger');
+                newTopFontawesome.classList.add('fa-check-circle', 'text-success');
+                newBottomFontawesome.classList.add('fa-question-circle', 'text-warning');
+                nextTopState = 'add';
+                nextBottomState = 'wish';
                 break;
         }
-        newElementFontawesome.addEventListener('click',function(e){
-                myAJAX('inc/updateTomeState.php?state='+state+'&id='+id).then(result => {
-                    console.log(result)
+        newTopFontawesome.addEventListener('click',function(e){
+                myAJAX('inc/updateTomeState.php?state='+nextTopState+'&id='+id).then(result => {
+                    newButtonStateFontawesome(topElement, bottomElement, nextTopState, id);
                 });
         });
-        return newElementFontawesome;
+        newBottomFontawesome.addEventListener('click',function(e){
+                myAJAX('inc/updateTomeState.php?state='+nextBottomState+'&id='+id).then(result => {
+                    newButtonStateFontawesome(topElement, bottomElement, nextBottomState, id);
+                });
+        });
+        topElement.appendChild(newTopFontawesome);
+        bottomElement.appendChild(newBottomFontawesome);
     }
 
     // Create bloc Image Tome from template
-    function createDivFromTemplate(img, classState, classBorder, topLogo, bottomLogo, id){
+    function createDivFromTemplate(img, classState, classBorder, current, id){
         let templateTome = document.querySelector("#tomeListTemplate");
         let clone = document.importNode(templateTome.content, true);
         let imageClone = clone.querySelector("img");
@@ -95,8 +115,7 @@ include_once('core/header.php');
         imageClone.src = 'files/img/minicover/'+img;
         imageClone.classList.add(classState);
         mainDivClone.classList.add(classBorder);
-        topButtonFotawesome.appendChild(newButtonStateFontawesome(topLogo, id));
-        bottomButtonFotawesome.appendChild(newButtonStateFontawesome(bottomLogo, id));
+        newButtonStateFontawesome(topButtonFotawesome, bottomButtonFotawesome, current, id)
         return clone;
     }
 
@@ -114,7 +133,7 @@ include_once('core/header.php');
                     let jsonObject = JSON.parse(result);
                     for (let data in jsonObject) {
                         let dataObject = jsonObject[data];
-                        let newBloc = createDivFromTemplate(dataObject.img, dataObject.state, dataObject.border, dataObject.top, dataObject.bottom, dataObject.tome);
+                        let newBloc = createDivFromTemplate(dataObject.img, dataObject.state, dataObject.border, dataObject.current, dataObject.tome);
                         newElementDiv.appendChild(newBloc);
                     }
                 });
