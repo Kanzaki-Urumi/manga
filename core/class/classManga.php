@@ -26,14 +26,14 @@ class Manga{
      * get all database info Tome
      *
      * @param int $id
-     * @return Manga|false
+     * @return Manga|Exception
      */
-    public function readIdManga(int $id = null):Manga|false
+    public function readIdManga(int $id = null):Manga|Exception
     {
         $sql = "SELECT * FROM `manga` WHERE `id_manga` = ".intval($id??$this->idManga)." ";
         $data = $this->PDO->query($sql);
         if($data->affectedRows() != 1)
-            return false;
+            return throw new Exception('error');
     
         $data = $data->firstRow();
         $this->name = $data->name;

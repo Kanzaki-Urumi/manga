@@ -75,6 +75,8 @@ class User{
         $sql .= "GROUP BY `mt`.`id_tome` 
         ORDER BY `m`.`name` ASC, `mt`.`number` ASC ;";
 
+        // Reset manga list
+        $this->manga = [];
         foreach($this->PDO->query($sql)->fetchObj() as $elem){
             $this->manga[(int) $elem->id_manga][(int) $elem->id_tome] = (int) $elem->id_tome_status;
         }
@@ -187,4 +189,40 @@ class User{
         $this->PDO->query($sql);
     }
 
+    public function getListMangaHavent()
+    {
+        $sql = "SELECT `m`.`id_manga` FROM `manga` AS `m` 
+        LEFT JOIN `user_manga` AS `um` ON `um`.`id_manga` = `m`.`id_manga` AND `um`.`id_user` = ".$this->idMembre." 
+        WHERE `um`.`id_user_manga` IS NULL ORDER BY `m`.`name`";
+        return $this->PDO->query($sql)->fetchObj();
+    }
+
+    /**
+     * addMangaLibrary
+     * @param int $idManga id of the manga
+     * @param bool $Action true for add // false for remove
+     * @return bool true if done, else false
+     */
+    public function addMangaLibrary(int $idManga, bool $Action):bool
+    {
+        // existing state
+        $existOnList = array_key_exists($idManga, $this->manga);
+
+        if($existOnList === $Action)
+            return false;
+
+        try{
+            // test if manga exist
+            $infoManga = new Manga($idManga);
+            if($Action){
+                $sql = "INSERT INTO `user_manga` (id_user_manga, id_user, id_manga) VALUES (null, ".$this->idMembre.", ".$idManga.") ";
+            }else{
+                $sql = "DELETE FROM `user_manga` WHERE `id_manga` = ".$idManga." AND `id_user` = ".$this->idMembre." ";
+            }   
+            $this->PDO->query($sql);
+            return true;
+        }catch(Exception $e){
+            return false;
+        }
+    }
 }
